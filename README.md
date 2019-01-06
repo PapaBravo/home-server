@@ -2,6 +2,13 @@
 
 ## Install
 
+1. Install Docker
+2. Install `docker-compose`
+3. Create lots of directories 
+```sh
+sudo mkdir /var/pihole
+```
+
 ## Run
 To run all components, go to the directory and run 
 

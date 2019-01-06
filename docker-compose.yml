@@ -47,7 +47,20 @@ services:
      - openhab-addons:/openhab/addons
      - openhab-conf:/openhab/conf
      - openhab-userdata:/openhab/userdata           
-
+  pihole:
+    restart: unless-stopped
+    container_name: pihole
+    image: pihole/pihole
+    volumes:
+      - /var/pihole:/etc/pihole
+    environment:
+      - ServerIP=192.168.1.6
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "80:80"
 volumes:
   influx-data:
     driver: local
