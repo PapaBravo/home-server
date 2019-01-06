@@ -1,35 +1,66 @@
-influxdb:
-  image: influxdb:latest
-  container_name: influxdb
-  ports:
-    - "8083:8083"
-    - "8086:8086"
-    - "8090:8090"
-  env_file:
-    - 'env.influxdb'
-  volumes:
-    # Data persistency
-    # sudo mkdir -p /srv/docker/influxdb/data
-    - /srv/docker/influxdb/data:/var/lib/influxdb
+version: '3'
+services:
+  mosquitto:
+    image: pascaldevink/rpi-mosquitto
+    ports:
+     - "9001:9001"
+     - "1883:1883"
+    deploy:
+      restart_policy: 
+          condition: on-failure 
+  influxdb:
+    image: hypriot/rpi-influxdb
+    deploy:
+      restart_policy: 
+          condition: on-failure 
+    environment:
+     - INFLUXDB_INIT_PWD="password"
+     - PRE_CREATE_DB="iot"
+    ports:
+     - "8083:8083"
+     - "8086:8086"
+    volumes:
+     - influx-data:/data
+  grafana:
+    image: fg2it/grafana-armhf:v4.6.3
+    deploy:
+      restart_policy: 
+        condition: on-failure 
+    ports:
+     - "3000:3000"
+    volumes:
+      - grafana-db:/var/lib/grafana
+      - grafana-log:/var/log/grafana
+      - grafana-conf:/etc/grafana
+  openhab:
+    image: "openhab/openhab:2.3.0-armhf-debian"
+    deploy:
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "8080:8080"
+      - "8443:8443"
+      - "8101:8101"
+    volumes:
+     - /etc/localtime:/etc/localtime:ro
+     - /etc/timezone:/etc/timezone:ro
+     - openhab-addons:/openhab/addons
+     - openhab-conf:/openhab/conf
+     - openhab-userdata:/openhab/userdata           
 
-telegraf:
-  image: telegraf:latest
-  container_name: telegraf
-  links:
-    - influxdb
-  volumes:
-    - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
+volumes:
+  influx-data:
+    driver: local
+  grafana-db:
+    driver: local  
+  grafana-log:
+    driver: local
+  grafana-conf:
+    driver: local
+  openhab-addons:
+    driver: local
+  openhab-conf:
+    driver: local
+  openhab-userdata:
+    driver: local
 
-grafana:
-  image: grafana/grafana:latest
-  container_name: grafana
-  ports:
-    - "3000:3000"
-  env_file:
-    - 'env.grafana'
-  links:
-    - influxdb
-  volumes:
-    # Data persistency
-    # sudo mkdir -p /srv/docker/grafana/data; chown 472:472 /srv/docker/grafana/data
-    - /srv/docker/grafana/data:/var/lib/grafana
