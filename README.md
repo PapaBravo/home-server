@@ -1,49 +1,14 @@
-# Docker-compose files for a simple uptodate
-# InfluxDB
-# + Grafana stack
-# + Telegraf
+# Home Server with lots of nice things
 
-Get the stack (only once):
+## Install
 
-```
-git clone https://github.com/nicolargo/docker-influxdb-grafana.git
-cd docker-influxdb-grafana
-docker pull grafana/grafana
-docker pull influxdb
-docker pull telegraf
-```
+## Run
 
-Run your stack:
+## Components
 
-```
-docker-compose up -d
-
-```
-
-Show me the logs:
-
-```
-docker-compose logs
-```
-
-Stop it:
-
-```
-docker-compose stop
-docker-compose rm
-```
-
-Update it:
-
-```
-git pull
-docker pull grafana/grafana
-docker pull influxdb
-docker pull telegraf
-```
-
-If you want to run Telegraf, edit the telegraf.conf to yours needs and:
-
-```
-docker exec telegraf telegraf
-```
+| Name      | Description                             | Link                                                        | Port |
+| --------- | --------------------------------------- | ----------------------------------------------------------- | ---- |
+| openHAB   |                                         | <https://www.openhab.org/>                                  | 8080 |
+| grafana   | Time Series Analytics and Visualization | <https://grafana.com/>                                      | 3000 |
+| influxDB  | Time Series Storage                     | <https://www.influxdata.com/time-series-platform/influxdb/> | 8080 |
+| mosquitto | MQTT Broker                             | <https://mosquitto.org/>                                    | 9001 |
