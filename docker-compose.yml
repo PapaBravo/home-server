@@ -50,17 +50,21 @@ services:
   pihole:
     restart: unless-stopped
     container_name: pihole
-    image: pihole/pihole
+    image: pihole/pihole:latest
+    dns:
+      - 127.0.0.1
+      - 1.1.1.1
     volumes:
       - /var/pihole:/etc/pihole
     environment:
-      - ServerIP=192.168.1.6
-    cap_add:
-      - NET_ADMIN
+      ServerIP: 192.168.1.6
+      PROXY_LOCATION: pihole
     ports:
       - "53:53/tcp"
       - "53:53/udp"
-      - "80:80"
+      - "67:67/udp"
+      - "80:80/tcp"
+      - "443:443/tcp"
 volumes:
   influx-data:
     driver: local
