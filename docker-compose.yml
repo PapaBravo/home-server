@@ -65,6 +65,14 @@ services:
       - "67:67/udp"
       - "80:80/tcp"
       - "443:443/tcp"
+  speedtest:
+    container_name: speedtest
+    build: https://github.com/PapaBravo/speedtest-docker.git
+    deploy:
+      restart_policy: 
+          condition: on-failure 
+    ports: 
+    - "3000:3000"
 volumes:
   influx-data:
     driver: local
