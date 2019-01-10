@@ -8,6 +8,11 @@
 ```sh
 sudo mkdir /var/pihole
 ```
+1. Set a pihole
+   1. `ssh` into PI
+   2. `docker exec -it pihole_container_name pihole -a -p`
+   3. Enter new password twice
+   4. Set up via web portal at `<pi-ip>/admin`
 
 ## Run
 To run all components, go to the directory and run 
