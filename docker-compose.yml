@@ -72,7 +72,7 @@ services:
       restart_policy: 
           condition: on-failure 
     ports: 
-    - "3000:3000"
+    - "4000:3000"
 volumes:
   influx-data:
     driver: local
