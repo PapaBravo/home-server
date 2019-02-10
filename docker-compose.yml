@@ -65,6 +65,14 @@ services:
       - "67:67/udp"
       - "80:80/tcp"
       - "443:443/tcp"
+  samba:
+    restart: unless-stopped
+    contain_name: samba
+    image: trnape/rpi-samba
+    ports:
+      - "445:445"
+    volumes: 
+      - /var/lib/docker/volumes/home-server_openhab-conf/_data:/mount
 volumes:
   influx-data:
     driver: local
