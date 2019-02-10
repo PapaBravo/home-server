@@ -26,11 +26,8 @@ services:
     volumes:
      - influx-data:/data
   grafana:
-    image: grafana/grafana:5.4.3
+    image: grafana/grafana
     container_name: grafana
-    deploy:
-      restart_policy: 
-        condition: on-failure 
     ports:
      - "3000:3000"
     env_file:
